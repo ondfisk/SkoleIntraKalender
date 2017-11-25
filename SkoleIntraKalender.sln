@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkoleIntraKalender", "SkoleIntraKalender\SkoleIntraKalender.csproj", "{43246B8E-5F2C-4C8C-9C7F-3128409A5ABE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkoleIntraKalender.Tests", "SkoleIntraKalender.Tests\SkoleIntraKalender.Tests.csproj", "{102148B6-D156-4489-AD7E-5161CE3AD1BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7F166AF8-DFE2-4FA1-BD7B-C75C9BF47F10}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43246B8E-5F2C-4C8C-9C7F-3128409A5ABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43246B8E-5F2C-4C8C-9C7F-3128409A5ABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43246B8E-5F2C-4C8C-9C7F-3128409A5ABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43246B8E-5F2C-4C8C-9C7F-3128409A5ABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{102148B6-D156-4489-AD7E-5161CE3AD1BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{102148B6-D156-4489-AD7E-5161CE3AD1BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{102148B6-D156-4489-AD7E-5161CE3AD1BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{102148B6-D156-4489-AD7E-5161CE3AD1BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {389E646F-1AA7-4D4B-B573-A77877304746}
+	EndGlobalSection
+EndGlobal
