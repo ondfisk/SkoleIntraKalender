@@ -41,43 +41,5 @@ namespace SkoleIntraKalender.Models
 
             return dateTime.ToLocalTime().DateTime;
         }
-
-        public static CalendarEvent ToCalendarEvent(this Item item)
-        {
-            var staff = string.IsNullOrEmpty(item.StaffName) ?
-                string.Empty :
-                $" ({item.StaffName?.Split(' ')[0]})";
-
-            var summary = $"{item.Title}{staff}";
-
-            return new CalendarEvent
-            {
-                Uid = item.Id,
-                Summary = summary,
-                Location = item.Location.FirstOrDefault(),
-                Start = new CalDateTime(item.Start, "Europe/Copenhagen"),
-                End = new CalDateTime(item.End, "Europe/Copenhagen"),
-                IsAllDay = item.AllDay
-            };
-        }
-
-        public static Calendar ToCalendar(this IEnumerable<Item> items)
-        {
-            var calendar = new Calendar();
-
-            foreach (var item in items.Select(ToCalendarEvent))
-            {
-                calendar.Events.Add(item);
-            }
-
-            return calendar;
-        }
-
-        public static string Serialize(this Calendar calendar)
-        {
-            var serializer = new CalendarSerializer(new SerializationContext());
-
-            return serializer.SerializeToString(calendar);
-        }
     }
 }

@@ -22,7 +22,7 @@ namespace SkoleIntraKalender
         {
             services.AddMvc(o =>
             {
-                o.OutputFormatters.Insert(0, new CalendarOutputFormatter());
+                o.OutputFormatters.Insert(0, new CalendarOutputFormatter(new CalendarConverter()));
             });
 
             services.Configure<MvcOptions>(o =>
@@ -35,6 +35,7 @@ namespace SkoleIntraKalender
 
             services.AddScoped<DelegatingHandler, AuthorizedHandler>();
             services.AddScoped<ICalendarService, CalendarService>();
+            services.AddScoped<ICalendarConverter, CalendarConverter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

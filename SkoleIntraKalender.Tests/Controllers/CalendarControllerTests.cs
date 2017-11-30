@@ -16,7 +16,7 @@ namespace SkoleIntraKalender.Tests.Controllers
         {
             var options = new Mock<IOptions<CalendarOptions>>();
 
-            var controller = new CalendarController(options.Object, null);
+            var controller = new CalendarController(options.Object, null, null);
 
             var result = await controller.Get("foo");
 
@@ -33,7 +33,7 @@ namespace SkoleIntraKalender.Tests.Controllers
             var options = new Mock<IOptions<CalendarOptions>>();
             options.SetupGet(o => o.Value).Returns(calendarOptions);
 
-            var controller = new CalendarController(options.Object, null);
+            var controller = new CalendarController(options.Object, null, null);
 
             var result = await controller.Get("04a6c52fb35143799ef72f4f9a27d10c");
 
@@ -54,11 +54,17 @@ namespace SkoleIntraKalender.Tests.Controllers
             var service = new Mock<ICalendarService>();
             service.Setup(s => s.GetItemsAsync()).ReturnsAsync(items);
 
-            var controller = new CalendarController(options.Object, service.Object);
+            var groupedByTitleAndTime = new Item[1];
+            var groupedByTitleAndStaff = new Item[2];
+            var converter = new Mock<ICalendarConverter>();
+            converter.Setup(c => c.GroupByTitleAndTime(items)).Returns(groupedByTitleAndTime);
+            converter.Setup(c => c.GroupByTitleAndStaff(groupedByTitleAndTime)).Returns(groupedByTitleAndStaff);
+
+            var controller = new CalendarController(options.Object, service.Object, converter.Object);
 
             var result = await controller.Get("04a6c52fb35143799ef72f4f9a27d10c") as OkObjectResult;
 
-            Assert.Equal(items, result.Value);
+            Assert.Equal(groupedByTitleAndStaff, result.Value);
         }
     }
 }

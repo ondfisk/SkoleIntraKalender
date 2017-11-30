@@ -5,15 +5,17 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using Ical.Net;
-using Ical.Net.Serialization;
 
 namespace SkoleIntraKalender.Models
 {
     public class CalendarOutputFormatter : TextOutputFormatter
     {
-        public CalendarOutputFormatter()
+        private readonly ICalendarConverter _converter;
+
+        public CalendarOutputFormatter(ICalendarConverter converter)
         {
+            _converter = converter;
+
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/calendar"));
 
             SupportedEncodings.Add(Encoding.UTF8);
@@ -26,9 +28,11 @@ namespace SkoleIntraKalender.Models
 
             var items = context.Object as IEnumerable<Item> ?? new[] { context.Object as Item };
 
-            var calendar = items.ToCalendar().Serialize();
+            var calendar = _converter.ConvertToCalendar(items);
+            
+            var serialized = _converter.Serialize(calendar);
 
-            await response.WriteAsync(calendar);
+            await response.WriteAsync(serialized);
         }
 
         protected override bool CanWriteType(Type type)
