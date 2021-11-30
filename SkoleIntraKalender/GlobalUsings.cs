@@ -1,0 +1,12 @@
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.Formatters;
+global using Microsoft.Extensions.Options;
+global using Microsoft.Net.Http.Headers;
+global using System.Net;
+global using System.Text;
+global using System.Text.Json;
+global using Ical.Net;
+global using Ical.Net.CalendarComponents;
+global using Ical.Net.DataTypes;
+global using Ical.Net.Serialization;
+global using SkoleIntraKalender.Models;

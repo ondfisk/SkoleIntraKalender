@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace SkoleIntraKalender.Models;
 
-namespace SkoleIntraKalender.Models
+public interface ICalendarService : IDisposable
 {
-    public interface ICalendarService : IDisposable
-    {
-        Task<IReadOnlyCollection<Item>> GetItemsAsync();
-    }
+    Task<IReadOnlyCollection<Item>> GetItemsAsync();
 }

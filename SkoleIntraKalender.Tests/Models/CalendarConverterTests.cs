@@ -1,47 +1,42 @@
-﻿using System;
-using Xunit;
-using SkoleIntraKalender.Models;
-using System.Linq;
+﻿namespace SkoleIntraKalender.Tests.Models;
 
-namespace SkoleIntraKalender.Tests.Models
+public class CalendarConverterTests
 {
-    public class CalendarConverterTests
+    [Fact]
+    public void ToCalendarEvent()
     {
-        [Fact]
-        public void ToCalendarEvent()
+        var start = DateTime.Parse("2000-01-13 12:00:00");
+        var end = DateTime.Parse("2000-01-13 13:00:00");
+
+        var item = new Item
         {
-            var start = DateTime.Parse("2000-01-13 12:00:00");
-            var end = DateTime.Parse("2000-01-13 13:00:00");
+            Id = "id",
+            Title = "title",
+            StaffName = "firstName lastName",
+            Location = new[] { "location" },
+            Start = start,
+            End = end,
+            AllDay = false
+        };
 
-            var item = new Item
-            {
-                Id = "id",
-                Title = "title",
-                StaffName = "firstName lastName",
-                Location = new[] { "location" },
-                Start = start,
-                End = end,
-                AllDay = false
-            };
+        var converter = new CalendarConverter();
 
-            var converter = new CalendarConverter();
+        var calendarEvent = converter.ConvertToCalendarEvent(item);
 
-            var calendarEvent = converter.ConvertToCalendarEvent(item);
+        Assert.Equal("id", calendarEvent.Uid);
+        Assert.Equal("title (firstName)", calendarEvent.Summary);
+        Assert.Equal("location", calendarEvent.Location);
+        Assert.Equal(start, calendarEvent.DtStart.Value);
+        Assert.Equal("Europe/Copenhagen", calendarEvent.DtStart.TimeZoneName);
+        Assert.Equal(end, calendarEvent.DtEnd.Value);
+        Assert.Equal("Europe/Copenhagen", calendarEvent.DtEnd.TimeZoneName);
+    }
 
-            Assert.Equal("id", calendarEvent.Uid);
-            Assert.Equal("title (firstName)", calendarEvent.Summary);
-            Assert.Equal("location", calendarEvent.Location);
-            Assert.Equal(start, calendarEvent.DtStart.Value);
-            Assert.Equal("Europe/Copenhagen", calendarEvent.DtStart.TimeZoneName);
-            Assert.Equal(end, calendarEvent.DtEnd.Value);
-            Assert.Equal("Europe/Copenhagen", calendarEvent.DtEnd.TimeZoneName);
-        }
-
-        [Fact]
-        public void GroupByTitleAndTime_given_two_classes_with_same_title_and_time_joins_them()
+    [Fact]
+    public void GroupByTitleAndTime_given_two_classes_with_same_title_and_time_joins_them()
+    {
+        var items = new[]
         {
-            var items = new[]
-            {
                 new Item
                 {
                     Id = "1",
@@ -62,7 +57,7 @@ namespace SkoleIntraKalender.Tests.Models
                 }
             };
 
-            var expected = new[] {
+        var expected = new[] {
                 new Item
                 {
                     Id = "1",
@@ -74,18 +69,18 @@ namespace SkoleIntraKalender.Tests.Models
                 }
             };
 
-            var converter = new CalendarConverter();
+        var converter = new CalendarConverter();
 
-            var group = converter.GroupByTitleAndTime(items);
+        var group = converter.GroupByTitleAndTime(items);
 
-            Assert.Equal(expected, group);
-        }
+        Assert.Equal(expected, group);
+    }
 
-        [Fact]
-        public void GroupByTitleAndStaff_given_two_classes_with_same_title_and_staff_joins_them()
+    [Fact]
+    public void GroupByTitleAndStaff_given_two_classes_with_same_title_and_staff_joins_them()
+    {
+        var items = new[]
         {
-            var items = new[]
-            {
                 new Item
                 {
                     Id = "1",
@@ -124,7 +119,7 @@ namespace SkoleIntraKalender.Tests.Models
                 }
             };
 
-            var expected = new[] {
+        var expected = new[] {
                 new Item
                 {
                     Id = "1",
@@ -154,11 +149,10 @@ namespace SkoleIntraKalender.Tests.Models
                 }
             };
 
-            var converter = new CalendarConverter();
+        var converter = new CalendarConverter();
 
-            var group = converter.GroupByTitleAndStaff(items);
+        var group = converter.GroupByTitleAndStaff(items);
 
-            Assert.Equal(expected, group);
-        }
+        Assert.Equal(expected, group);
     }
 }

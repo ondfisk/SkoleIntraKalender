@@ -1,18 +1,31 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿var builder = WebApplication.CreateBuilder(args);
 
-namespace SkoleIntraKalender
+
+builder.Services.AddMvc(o =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            BuildWebHost(args).Run();
-        }
+    o.OutputFormatters.Insert(0, new CalendarOutputFormatter(new CalendarConverter()));
+});
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
-    }
+builder.Services.Configure<MvcOptions>(o =>
+{
+    o.Filters.Add(new RequireHttpsAttribute());
+});
+
+builder.Services.AddOptions();
+builder.Services.Configure<CalendarOptions>(builder.Configuration.GetSection("CalendarService"));
+
+builder.Services.AddScoped<DelegatingHandler, AuthorizedHandler>();
+builder.Services.AddScoped<ICalendarService, CalendarService>();
+builder.Services.AddScoped<ICalendarConverter, CalendarConverter>();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
+
+app.UseHttpsRedirection();
+app.UseRouting();
+app.MapControllers();
+app.Run();
